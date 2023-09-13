@@ -149,7 +149,7 @@ Destroying test database for alias 'default'...
 23. Melakukan <i>deployment</i> repositori `orbit-tune` menggunakan Adaptable. Template <i>deployment</i> yang digunakan adalah `Python App Template` dan tipe basis data yang digunakan adalah `PostgreSQL`.
 
 ### Bagan yang berisi <i>request client</i> ke web aplikasi berbasis Django beserta responnya
-![Bagan request client Bulan](https://www.dropbox.com/scl/fi/56r2tlk37h5ytwefgejeg/Screenshot-2023-09-12-134404.png?rlkey=t5w5fiuti4elabn6p09shg86x&dl=0)<br>
+<img width="503" alt="Bagan request client Bulan" src="https://github.com/bulanath/orbit-tune/assets/104998027/f797b92d-4c37-469c-9fc2-f0600b012823"><br>
 Pada awalnya, klien membuat permintaan HTTP ke URL tertentu yang didefinisikan di dalam `urls.py`. `urls.py` berfungsi untuk mendefinisikan URL _patterns_ dan memetakannya ke fungsi _view_ yang spesifik. Dalam `urls.py` akan ditentukan fungsi _view_ mana yang harus dipanggil untuk setiap URL _pattern_. Kemudian, fungsi pada `views.py` memproses permintaan HTTP tersebut dan berinteraksi dengan `models.py` untuk mengakses data pada _model_. Setelah itu, fungsi _view_ akan menggunakan `main.html` sebagai _template_ HTML untuk me-_render_ tampilan HTML. _Template_ HTML tersebut akan menggunakan data dari `views.py` yang disisipkan menggunakan sintaks Django yang telah didefinisikan dalam variabel `context`. _Template_ HTML yang telah di-_render_ akan dikirimkan kembali ke klien dalam bentuk respon HTTP. Peramban web klien akan menerima respon tersebut dan menampilkannya pada halaman web klien.
 
 ### Jelaskan mengapa kita menggunakan <i>virtual environment</i>? Apakah kita tetap dapat membuat aplikasi web berbasis Django tanpa menggunakan <i>virtual environment</i>?
