@@ -1,75 +1,20 @@
-# Tugas 2 PBP Ganjil 2023/2024
-[Link to OrbitTune](https://orbitune.adaptable.app/main/)<br>
+# Tugas 3 PBP Ganjil 2023/2024
+<!-- [Link to OrbitTune](https://orbitune.adaptable.app/main/)<br> -->
 
 **Nama    : Bulan Athaillah Permata Wijaya**<br>
 **NPM     : 2206032135**<br>
 **Kelas   : PBP C**<br>
 
-### Cara mengimplementasikan <i>checklist</i> tugas secara <i>step-by-step</i>
-1. Agar dapat membuat proyek Django baru, pertama-tama saya membuat folder `orbit-tune` pada direktori lokal. Kemudian saya membuat dan mengaktifkan <i>virtual environment</i> melalui terminal. 
-2. Membuat file teks `requirements.txt` berisi berbagai <i>dependencies</i> yang diperlukan yaitu:<br>
-```
-django
-gunicorn
-whitenoise
-psycopg2-binary
-requests
-urllib3
-```
-3. Kemudian melakukan instalasi <i>dependencies</i> dengan perintah `pip install -r requirements.txt` pada terminal.
-4. Membuat proyek Django baru bernama `orbit_tune` dengan menjalankan perintah `django-admin startproject orbit_tune .`.
-5. Setelah itu, saya menambahkan perubahan pada `ALLOWED_HOSTS` di `settings.py` menjadi `ALLOWED_HOSTS = ["*"]` untuk mengizinkan semua host mendapat akses agar aplikasi dapat diakses secara luas.
-6. Menjalankan server Django dengan menggunakan perintah `python manage.py runserver` dan kemudian melihat animasi roket saat web dibuka melalui <i>localhost</i> menandakan bahwa aplikasi Django telah berhasil dibuat.
-7. Menghentikan <i>server</i> dan <i>virtual environment</i> agar dapat mengunggah proyek menuju repositori GitHub.
-8. Membuat repositori GitHub baru bernama `orbit-tune` dan menghubungkannya dengan direktori lokal dengan memasukkan perintah `git remote add origin https://github.com/bulanath/orbit-tune.git` melalui terminal.
-9. Menambahkan berkas `.gitignore` untuk menentukan mana saja berkas dan direktori yang harus diabaikan oleh Git.
-10. Melakukan `add`,`commit`, dan `push` dari direktori lokal ke repositori untuk pertama kalinya.
-11. Mengaktifkan kembali <i>virtual environment</i> menggunakan terminal pada direktori lokal `orbit-tune`.
-12. Setelah itu, saya membuat aplikasi baru bernama `main` pada proyek `orbit-tune` dengan menjalankan perintah `python manage.py startapp main`.
-13. Mendaftarkan aplikasi `main` ke dalam proyek dengan menambahkan `'main'` ke dalam variabel `INSTALLED_APPS` pada `settings.py`.
-14. Menambahkan direktori baru bernama `template` dalam direktori `main`. Di dalamnya membuat berkas baru `main.html` dengan isi seperti berikut:<br>
-```
-<h1>OrbitTune</h1>
-<h3>An Easier Way to Keep Track of your Instruments!</h3>
+### Apa perbedaan antara `POST` dan form `GET` dalam Django?
 
-<h5>Instrument: </h5>
-<p>Guitar</p>
-<h5>Brand: </h5>
-<p>Fender</p>
-<h5>Type: </h5>
-<p>Telecaster</p>
-<h5>Amount: </h5>
-<p>2</p>
-<h5>Description: </h5>
-<p>In good conditions</p>
-```
-15. Mengubah `models.py` pada direktori `main` dengan kode berikut:<br>
-```
-from django.db import models
+### Apa perbedaan utama antara XML, JSON, dan HTML dalam konteks pengiriman data?
 
-class Item(models.Model):
-    name = models.CharField(max_length=255)
-    brand = models.CharField(max_length=255)
-    type = models.CharField(max_length=255)
-    amount = models.IntegerField()
-    description = models.TextField()
-```
-Saya mendefinisikan `Item` sebagai nama model. Atribut yang saya gunakan pada model adalah `nama`,`merek`,`tipe`,`jumlah`, dan `deskripsi`. Setiap atribut telah menggunakan dengan tipe data yang sesuai.
+### Mengapa JSON sering digunakan dalam pertukaran data antara aplikasi web modern?
 
-16. Karena telah menambahkan model baru, selanjutnya saya melakukan migrasi model pada Django. Pertama saya menciptakan berkas migrasi dengan perintah `python manage.py makemigrations`. Setelah itu, saya mengaplikasikan model yang baru saja ditambahkan ke basis data dengan perintah `python manage.py migrate`.
-17. Menghubungkan <i>view</i> dengan <i>template</i> dengan menambahkan kode berikut pada `views.py` dalam direktori aplikasi `main`.
-```
-from django.shortcuts import render
+### Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara _step-by-step_C
 
-def show_main(request):
-    context = {
-        'instrument': 'Guitar',
-        'brand': 'Fender',
-        'type': 'Telecaster',
-        'amount': '2',
-        'description': 'In good conditions'
-    }
 
+<<<<<<< HEAD
     return render(request, "main.html", context)
 ```
 Data yang telah dimasukkan ke dalam <i>dictionary</i> `context` pada fungsi `show_main` akan ditampilkan ke dalam HTML dengan bantuan fungsi `render` yang telah di <i>import</i>.
@@ -190,3 +135,7 @@ Selain itu, **MVC** dan **MVT** seringkali melibatkan <i>server-side</i> pada ap
 [Django Web Framework](https://dev.to/ivanadokic/django-web-framework-python-ebn)<br>
 [MVC, MVP, MVVM: Which One to Choose?](https://www.makeuseof.com/mvc-mvp-mvvm-which-choose/)<br>
 [Django Testing Tutorial](https://learndjango.com/tutorials/django-testing-tutorial)
+=======
+<!-- #### Referensi
+[Situs Web PBP Ganjil 2023/2024](https://pbp-fasilkom-ui.github.io/ganjil-2024/)<br> -->
+>>>>>>> 7c093f5 (update README.md)
