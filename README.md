@@ -84,6 +84,25 @@ def show_main(request):
 {% extends 'base.html' %} 
 
 {% block content %}
+<style>
+    body {
+        font-family: Helvetica;
+    }
+    input[type=text], input[type=number] {
+        width: 100%;
+        padding: 12px 20px;
+        box-sizing: border-box;
+    }
+    input[type=button], input[type=submit] {
+        width: 50%;
+        padding: 12px 14px;
+    }
+    label {
+        margin: 10px;
+        float: left;
+    }
+</style>
+
 <h1>Add New Instrument</h1>
 
 <form method="POST">
@@ -105,12 +124,23 @@ def show_main(request):
 7. Memodifikasi `main.html` dengan menambahkan potongan kode di bawah untuk menampilkan item yang telah di input oleh _user_ dalam tabel dan menambah tombol yang akan menuju ke laman `create_item`
 ```
 ...
-<style>
+{% block content %}
+    <style>
+        body {
+            text-align: center;
+            font-family: Helvetica;
+        }
         table, th, td {
             width: 560px;
             border: 1px solid black;
             border-collapse: collapse;
             text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        button {
+        width: 150px;
+        padding: 5px 10px;
         }
     </style>
 
