@@ -1,141 +1,200 @@
 # Tugas 3 PBP Ganjil 2023/2024
-<!-- [Link to OrbitTune](https://orbitune.adaptable.app/main/)<br> -->
 
 **Nama    : Bulan Athaillah Permata Wijaya**<br>
 **NPM     : 2206032135**<br>
 **Kelas   : PBP C**<br>
 
-### Apa perbedaan antara `POST` dan form `GET` dalam Django?
+### Apa perbedaan antara form `POST` dan form `GET` dalam Django?
+- Form `GET` digunakan untuk meminta data dari server. Hal ini menyebabkan data pada `GET` dapat dilihat oleh siapapun pada URL. Form `GET` juga memiliki limitasi dalam ukuran. `GET` hanya bisa mengakses data dalam tipe _string_ saja.
+- Form `POST` mengirimkan data ke server melalui _body_ dari HTTP _request_. Hal ini menyebabkan data pada `POST` tidak dapat dilihat di URL sehingga menjamin keamanan data. Form `POST` juga tidak memiliki limitasi dalam ukuran data yang dimasukkan dan mendukung berbagai tipe data seperti _string_, _numeric_, dan _binary_.
 
 ### Apa perbedaan utama antara XML, JSON, dan HTML dalam konteks pengiriman data?
+- XML (_Exstensible Markup Language_) merupakan sebuah _markup language_ yang digunakan untuk mewakili data dalam format yang terstruktur. XML menggunakan _tag_ untuk mendefinisikan elemen data. XML dapat digunakan untuk mewakili berbagai jenis data. XML biasanya digunakan untuk pertukaran data, file konfigurasi, dan menyimpan data terstruktur yang dapat dibaca oleh manusia.
+- JSON (_JavaScript Object Notation_) merupakan format data yang digunakan untuk merepresentasikan data dalam format yang mudah untuk dibaca. JSON menggunakan kurung kurawal dan tanda kutip untuk mendefinisika struktur data. JSON terdiri atas _key-value pairs_, dimana _key_-nya dapat berupa _string_, _numeric_, _object_, _array_, _boolean_, atau _null_. JSON biasanya digunakan untuk _web APIs_, file konfigurasi, dan penyimpanan data dalam database.
+- HTML (_Hypertext Markup Language_) merupakan sebuah _markup language_ yang digunakan untuk menampilkan data pada web. HTML menggunakan _tag_ untuk mendefinisikan struktur dan tata letak dokumen web. HTML tidak digunakan untuk pertukaran data atau penyimpanan data seperti XML dan JSON, melainkan untuk merepresentasikan data dalam halaman web.
 
-### Mengapa JSON sering digunakan dalam pertukaran data antara aplikasi web modern?
+### Mengapa JSON sering digunakan dalam pertukaran data antara aplikasi web modern
+Hal ini dikarenakan JSON memiliki beberapa kelebihan dibandingkan dengan format data yang lain, diantaranya:<br>
+- JSON merupakan format yang ringan dan mudah untuk di-_parse_. Oleh karena itu, JSON merupakan format yang ideal untuk pertukaran data melalui web, dimana _bandwith_ dan kinerja merupakan pertimbangan penting.
+- JSON mudah dibaca, bahkan untuk orang yang kurang biasa dengan bahasa pemrograman. Hal ini membuat JSON ideal untuk _debugging_.
+- JSON tidak terikat dengan bahasa pemrograman tertentu sehingga dapat digunakan dengan berbagai bahasa pemrograman dan platform.
+- JSON sangat fleksibel digunakan karena dapat merepresentasikan berbagai tipe data.
+- JSON didukung luas oleh seluruh _web browser_ dan bahasa pemrograman. Hal ini memudahkan dalam pengembangan aplikasi web yang menggunakan JSON untuk pertukaran data.
 
-### Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara _step-by-step_C
+### Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara _step-by-step_
+1. Pertama, saya menjalankan _virtual environment_ terlebih dahulu. Lalu saya mengubah _routing_ `main/` ke `/` dengan mengubah _path_ `main/` pada `urls.py` untuk menyesuaikan dengan konvensi yang ada.
+2. Selanjutnya saya implementasi _skeleton_ sebagai kerangka _views_ untuk situs web. Hal ini dilakukan dengan membuat `base.html` di _folder_ `templates` pada _root_. `base.html` merupakan kerangka umum untuk halaman web pada proyek ini. Kemudian ubah `settings.py` pada subdir `orbit_tune` menjadi seperti berikut agar `base.html` terdeteksi sebagai _template_.
+```
+...
+TEMPLATES = [
+    {
+        ...
+        'DIRS': [BASE_DIR / 'templates'],
+        ...
+    }
+]
+...
+```
 
+Setelah itu sesuaikan berkas `main.html` pada direktori `main` dengan _template_ utama yang telah dibuat.
 
-<<<<<<< HEAD
+3. Membuat berkas baru `forms.py` pada `main` untuk membuat struktur _form_ sederhana yang dapat menginput data barang baru dengan kode berikut. 
+```
+from django.forms import ModelForm
+from main.models import Item
+
+class ItemForm(ModelForm):
+    class Meta:
+        model = Item
+        fields = ["name", "brand", "type", "amount", "description"]
+```
+
+4. Meng-_import_ hal-hal yang diperlukan pads `views.py` di folder `main`, yakni `HttpResponseRedirect`, `ProductForm`, `reverse`, dan `Item`. Kemudian membuat fungsi baru `create_item` untuk menghasilkan sebuah formulir yang dapat menambahkan barang baru secara otomatis ketika men-_submit_ data di _form_ dengan kode seperti ini.
+```
+def create_item(request):
+    form = ItemForm(request.POST or None)
+
+    if form.is_valid() and request.method == "POST":
+        form.save()
+        return HttpResponseRedirect(reverse('main:show_main'))
+    
+    context = {'form': form}
+    return render(request, "create_item.html", context)
+```
+
+5. Mengubah fungsi `show_main` pada `views.py` menjadi seperti berikut.
+```
+def show_main(request):
+    #Mengambil seluruh object Item pada database
+    items = Item.objects.all() 
+
+    #Menghitung berapa item yang telah disimpan
+    items_count = items.count()
+
+    context = {
+        'items': items,
+        'items_count': items_count
+    }
+
     return render(request, "main.html", context)
 ```
-Data yang telah dimasukkan ke dalam <i>dictionary</i> `context` pada fungsi `show_main` akan ditampilkan ke dalam HTML dengan bantuan fungsi `render` yang telah di <i>import</i>.
 
-18. Memodifikasi `main.html` dari statis menjadi kode Django agar dapat menampilkan data dari model.
+6. Membuat berkas `create_item.html` pada `templates` di `main` dengan kode seperti di bawah untuk membuat tampilan laman _form_ untuk menambah _object_ item.
+```
+{% extends 'base.html' %} 
+
+{% block content %}
+<h1>Add New Instrument</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    <table>
+        {{ form.as_table }}
+        <tr>
+            <td></td>
+            <td>
+                <input type="submit" value="Add Instrument"/>
+            </td>
+        </tr>
+    </table>
+</form>
+
+{% endblock %}
+```
+
+7. Memodifikasi `main.html` dengan menambahkan potongan kode di bawah untuk menampilkan item yang telah di input oleh _user_ dalam tabel dan menambah tombol yang akan menuju ke laman `create_item`
 ```
 ...
-<h5>Instrument: </h5>
-<p>{{ instrument }}</p>
-<h5>Brand: </h5>
-<p>{{ brand }}</p>
-<h5>Type: </h5>
-<p>{{ type }}</p>
-<h5>Amount: </h5>
-<p>{{ amount }}</p>
-<h5>Description: </h5>
-<p>{{ description }}</p>
-```
+<style>
+        table, th, td {
+            width: 560px;
+            border: 1px solid black;
+            border-collapse: collapse;
+            text-align: center;
+        }
+    </style>
 
-19. Membuat <i>routing</i> URL pada aplikasi `main` dengan membuat `urls.py` dan diisi dengan kode berikut:<br>
-```
-from django.urls import path
-from main.views import show_main
+    <h1>OrbitTune</h1>
+    <h3>An Easier Way to Keep Track of your Instruments!</h3>
+    <p>You have inserted <b>{{ items_count }}</b> instrument in this app</p>
 
-app_name = 'main'
-
-urlpatterns = [
-    path('', show_main, name='show_main'),
-]
-```
-Setelah itu, saya membuat <i>routing</i> URL pada proyek `orbit-tune` dengan mengubah dan menambahkan `urls.py` menjadi:<br>
-```
-from django.contrib import admin
-from django.urls import path, include
-
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('main/', include('main.urls')),
-]
-```
-<i>Routing</i> dilakukan agar aplikasi `main` yang telah dibuat dapat diakses melalui web dengan tampilan HTML.
-
-20. Kemudian, saya membuat unit _test_ dengan mengisi `tests.py` pada `main` dengan kode di bawah ini:<br>
-```
-from django.test import TestCase, Client
-
-class mainTest(TestCase):
-    def test_main_url_is_exist(self):
-        response = Client().get('/main/')
-        self.assertEqual(response.status_code, 200)
-
-    def test_main_using_main_template(self):
-        response = Client().get('/main/')
-        self.assertTemplateUsed(response, 'main.html')
-
-    def test_main_content(self):
-        response = Client().get('/main/')
-        self.assertContains(response, "OrbitTune")
-        self.assertNotContains(response, "Penyimpanan alat musik")
-```
-
-Tes pertama, `test_main_url_is_exist` berfungsi untuk mengecek apakah _path_ URL `/main/` dapat diakses. Tes kedua, `test_main_using_main_template` befungsi untuk mengecek apakah halaman `/main/` di-_render_ menggunakan _template_ `main.html`. Dan tes ketiga, `test_main_content` saya buat sendiri berfungsi untuk mengecek apakah konten-konten tersebut terdapat pada halaman `/main` atau tidak.
-
-21. Setelah membuat unit _test_, saya menjalankan tes dengan menggunakan perintah `python manage.py test`. Tes yang dilakukan berhasil karena mengeluarkan informasi berikut.<br>
-```
-Found 3 test(s).
-Creating test database for alias 'default'...
-System check identified no issues (0 silenced).
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Brand</th>
+            <th>Type</th>
+            <th>Amount</th>
+            <th>Description</th>
+        </tr>
+    
+        {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini {% endcomment %}
+    
+        {% for item in items %}
+            <tr>
+                <td>{{item.name}}</td>
+                <td>{{item.brand}}</td>
+                <td>{{item.type}}</td>
+                <td>{{item.amount}}</td>
+                <td>{{item.description}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    
+    <br />
+    
+    <a href="{% url 'main:create_item' %}">
+        <button>
+            Add New Instrument
+        </button>
+    </a>
 ...
-----------------------------------------------------------------------     
-Ran 3 tests in 0.020s
-
-OK
-Destroying test database for alias 'default'...
 ```
-22. Melakukan `add`,`commit`, dan `push` ke dalam repositori GitHub setelah berhasil mengimplementasikan MVT pada Django.
-23. Melakukan <i>deployment</i> repositori `orbit-tune` menggunakan Adaptable. Template <i>deployment</i> yang digunakan adalah `Python App Template` dan tipe basis data yang digunakan adalah `PostgreSQL`.
 
-### Bagan yang berisi <i>request client</i> ke web aplikasi berbasis Django beserta responnya
-<img width="503" alt="Bagan request client Bulan" src="https://github.com/bulanath/orbit-tune/assets/104998027/f797b92d-4c37-469c-9fc2-f0600b012823"><br>
-Pada awalnya, klien membuat permintaan HTTP ke URL tertentu yang didefinisikan di dalam `urls.py`. `urls.py` berfungsi untuk mendefinisikan URL _patterns_ dan memetakannya ke fungsi _view_ yang spesifik. Dalam `urls.py` akan ditentukan fungsi _view_ mana yang harus dipanggil untuk setiap URL _pattern_. Kemudian, fungsi pada `views.py` memproses permintaan HTTP tersebut dan berinteraksi dengan `models.py` untuk mengakses data pada _model_. Setelah itu, fungsi _view_ akan menggunakan `main.html` sebagai _template_ HTML untuk me-_render_ tampilan HTML. _Template_ HTML tersebut akan menggunakan data dari `views.py` yang disisipkan menggunakan sintaks Django yang telah didefinisikan dalam variabel `context`. _Template_ HTML yang telah di-_render_ akan dikirimkan kembali ke klien dalam bentuk respon HTTP. Peramban web klien akan menerima respon tersebut dan menampilkannya pada halaman web klien.
+8. Setelah membuat _form_ dan menampilkan data dalam HTML, kemudian saya akan membuat fitur untuk mengembalikan data dalam bentuk XML, JSON, XML by id, dan JSON by id. Pertama, tambahkan _import_ pada `views.py` terlebih dahulu yakni `HttpResponse` dan `serializers`. Kemudian saya membuat empat fungsi (`show_xml`, `show_json`, `show_xml_by_id`, dan `show_json_by_id`) sebagai berikut.
+```
+def show_xml(request):
+    data = Item.objects.all()
+    return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
 
-### Jelaskan mengapa kita menggunakan <i>virtual environment</i>? Apakah kita tetap dapat membuat aplikasi web berbasis Django tanpa menggunakan <i>virtual environment</i>?
-<i>Virtual environment</i> digunakan untuk mengisolasi <i>dependencies</i> dan <i>package</i> yang dibutuhkan dari aplikasi sehingga tidak terjadi tabrakan antar versi lain yang ada pada komputer. Misalnya jika kita sedang mengerjakan dua aplikasi web berbasis Django, dimana yang satu menggunakan `Django 4.1` dan yang satu lagi menggunakan `Django 4.2`. Agar <i>dependencies</i> kedua aplikasi dapat terjaga, diperlukan penggunaan <i>virtual environment</i>.<br>
+def show_json(request):
+    data = Item.objects.all()
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
-Kita tetap dapat membuat aplikasi web berbasis Django tanpa menggunakan <i>virtual environment</i>. Akan tetapi, hal tersebut tidak direkomendasikan karena ada beberapa risiko yang mungkin terjadi. Diantaranya adalah:<br>
-- Tidak sengaja mengunduh <i>dependency</i> yang memiliki konflik dengan proyek Django lain pada komputer.
-- Melakukan <i>upgrade</i> atau <i>downgrade dependency</i> yang dapat merusak proyek.
-- Menjadi lebih sulit untuk melakukan <i>debugging</i> pada proyek.<br>
+def show_xml_by_id(request, id):
+    data = Item.objects.filter(pk=id)
+    return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
 
-Hal di atas dapat terjadi karena tidak adanya isolasi <i>dependencies</i> antar proyek karena tidak mengimplementasikan <i>virtual environment</i> dalam membuat aplikasi Django.
+def show_json_by_id(request, id):
+    data = Item.objects.filter(pk=id)
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+```
 
-### Jelaskan apakah itu MVC, MVT, MVVM dan perbedaan dari ketiganya
+Dalam setiap fungsi tersebut terdapat variabel data yang akan menyimpan hasil _query_. Untuk fungsi `show_xml_by_id` dan `show_json_by_id` menggunakan `.filter(pk=id)` untuk menyimpan hasil _query_ data dengan id yang ditentukan. Seluruh fungsi tersebut akan mengembalikan hasil _query_ yang sudah diserialisasi sesuai dengan format data XML/JSON.
 
-- MVC merupakan singkatan dari <i>Model-View-Controller</i>. MVC merupakan salah satu konsep arsitektur untuk pengembangan web yang memberlakukan <i>separation of concerns</i> antara _model_, _view_, dan _controller_. Secara ringkas, konsep MVC berjalan dalam kerangka berikut:
-    - **<i>Model</i>**: menyimpan data dan logika pada aplikasi.
-    - **<i>View</i>**: merepresentasikan <i>user interface</i> dan bertanggung jawab dalam menampilkan data ke pengguna.
-    - **<i>Controller</i>**: menangani input pengguna dan membantu proses <i>routing</i> untuk mengintegrasikan <i>model</i> ke <i>view</i> yang relevan.
-- MVT merupakan singkatan dari <i>Model-View-Template</i>. MVT merupakan salah satu konsep arsitektur untuk pengembangan web yang sangat terkait dengan <i>framework</i> Django. Secara ringkas, konsep MVT berjalan dalam kerangka berikut:
-    - **<i>Model</i>**: sama seperti MVC, digunakan untuk menyimpan data dan logika pada aplikasi.
-    - **<i>View</i>**: mengatur tampilan dan mengambil data dari <i>model</i> untuk ditampilkan kepada pengguna.
-    - **<i>Template</i>**: merancang <i>user interface</i> yang akan diisi oleh data dari <i>model</i> melalui <i>view</i>.
-- MVVM merupakan singkatan dari <i>Model-View-ViewModel</i>. MVVM merupakan salah satu konsep arsitektur untuk pengembangan web yang memisahkan antara logika (<i>model</i>) dan tampilan (<i>view</i>). Secara ringkas, konsep MVVM berjalan dalam kerangka berikut:
-    - **<i>Model</i>**: menyimpan data dan logika pada aplikasi.
-    - **<i>View</i>**: merepresentasikan <i>user interface</i> dan menampilkan <i>output</i> data ke pengguna.
-    - **<i>ViewModel</i>**: berada di antara <i>view</i> dan <i>model</i>, memberikan abstraksi <i>model</i> ke <i>view</i> yang dapat digunakan <i>view</i> untuk memengaruhi <i>model</i>.
+9. Selanjutnya saya akan mengimpor fungsi-fungsi yang telah dibuat pada `urls.py` di folder `main` sebagai berikut.
+```
+from main.views import show_main, create_item, show_xml, show_json, show_xml_by_id, show_json_by_id
+```
 
-Perbedaan dari ketiga konsep tersebut terletak pada <i>controller</i>. Pada **MVC**, <i>controller</i> berperan dalam menerima input pengguna dan memperbarui <i>model</i> dan mengintegrasikannya dengan <i>view</i>.<br>
+Saya juga akan melakukan _routing url_ dengan menambahkan _path_ pada `urlpatterns` untuk mengakses fungsi-fungsi yang telah dibuat.
+```
+...
+path('create-item', create_item, name='create_item'),
+    path('xml/', show_xml, name='show_xml'),
+    path('json/', show_json, name='show_json'),
+    path('xml/<int:id>/', show_xml_by_id, name='show_xml_by_id'),
+    path('json/<int:id>/', show_json_by_id, name='show_json_by_id'),
+```
 
-Sedangkan pada **MVT**, peran <i>controller</i> telah ditangani oleh sistem <i>routing</i> internal Django sehingga tidak perlu membuat <i>controller</i> secara eksplisit. <i>View</i> pada MVT secara umum memiliki peran yang sama dengan <i>controller</i> pada MVC dalam menangani input pengguna dari <i>model</i>.<br>
+10. Terakhir, saya menjalankan proyek Django pada terminal dengan perintah `python manage.py runserver` dan membuka `localhost` untuk melihat hasil dari berbagai format untuk melihat objek model. Saya juga menggunakan Postman untuk melihat data dengan hasil yang dapat dilihat di bawah.
 
-Kemudian pada **MVVM**, responsibilitas ini dialihkan menjadi <i>ViewModel</i> yang bertanggung jawab sebagai mediator antara <i>view</i> dan <i>model</i>.<br>
-
-Selain itu, **MVC** dan **MVT** seringkali melibatkan <i>server-side</i> pada aplikasi web, sedangkan **MVVM** lebih sering dikaitkan dengan aplikasi web yang bersifat <i>client-side</i>.
+### _Screenshot_ hasil URL pada Postman
+**1. Melihat data format HTML**<br>
+**2. Melihat data format XML**<br>
+**3. Melihat data format JSON**<br>
+**4. Melihat data format XML by id**<br>
+**5. Melihat data format JSON by id**
 
 #### Referensi
 [Situs Web PBP Ganjil 2023/2024](https://pbp-fasilkom-ui.github.io/ganjil-2024/)<br>
-[Django Web Framework](https://dev.to/ivanadokic/django-web-framework-python-ebn)<br>
-[MVC, MVP, MVVM: Which One to Choose?](https://www.makeuseof.com/mvc-mvp-mvvm-which-choose/)<br>
-[Django Testing Tutorial](https://learndjango.com/tutorials/django-testing-tutorial)
-=======
-<!-- #### Referensi
-[Situs Web PBP Ganjil 2023/2024](https://pbp-fasilkom-ui.github.io/ganjil-2024/)<br> -->
->>>>>>> 7c093f5 (update README.md)
+[Working with forms - Django](https://docs.djangoproject.com/en/4.2/topics/forms/)
