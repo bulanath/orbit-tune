@@ -191,13 +191,13 @@ Setelah itu saya melakukan _routing url_ dengan menambahkan _path_ pada `urlpatt
 ### _Screenshot_ hasil URL pada Postman
 **1. Melihat data format HTML**<br>
 <img width="800" alt="Screenshot 2023-09-18 194734" src="https://github.com/bulanath/orbit-tune/assets/104998027/69839e0e-42a6-41a0-a0da-16121daea786">
-**2. Melihat data format XML**<br>
+<br><br>**2. Melihat data format XML**<br>
 <img width="800" alt="Screenshot 2023-09-18 194714" src="https://github.com/bulanath/orbit-tune/assets/104998027/f6ed0f7b-cf28-4870-aa4f-10bbfc18bdfd">
-**3. Melihat data format JSON**<br>
+<br><br>**3. Melihat data format JSON**<br>
 <img width="800" alt="Screenshot 2023-09-18 194656" src="https://github.com/bulanath/orbit-tune/assets/104998027/efd1010b-6330-487c-83d3-8f4ed4a2efbb">
-**4. Melihat data format XML by id**<br>
+<br><br>**4. Melihat data format XML by id**<br>
 <img width="800" alt="Screenshot 2023-09-18 194621" src="https://github.com/bulanath/orbit-tune/assets/104998027/054a922d-03f3-46a1-bf24-c3563a420d1d">
-**5. Melihat data format JSON by id**<br>
+<br><br>**5. Melihat data format JSON by id**<br>
 <img width="800" alt="Screenshot 2023-09-18 194559" src="https://github.com/bulanath/orbit-tune/assets/104998027/fd28b6e2-fe89-4f7a-9dba-3b6a49e31a1f">
 
 #### Referensi
