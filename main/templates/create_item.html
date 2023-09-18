@@ -1,6 +1,25 @@
 {% extends 'base.html' %} 
 
 {% block content %}
+<style>
+    body {
+        font-family: Helvetica;
+    }
+    input[type=text], input[type=number] {
+        width: 100%;
+        padding: 12px 20px;
+        box-sizing: border-box;
+    }
+    input[type=button], input[type=submit] {
+        width: 50%;
+        padding: 12px 14px;
+    }
+    label {
+        margin: 10px;
+        float: left;
+    }
+</style>
+
 <h1>Add New Instrument</h1>
 
 <form method="POST">
@@ -15,5 +34,4 @@
         </tr>
     </table>
 </form>
-
 {% endblock %}
