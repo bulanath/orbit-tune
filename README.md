@@ -68,7 +68,7 @@ def show_main(request):
     #Mengambil seluruh object Item pada database
     items = Item.objects.all() 
 
-    #Menghitung berapa item yang telah disimpan
+    #Menghitung berapa object Item yang telah disimpan
     items_count = items.count()
 
     context = {
@@ -121,7 +121,7 @@ def show_main(request):
 {% endblock %}
 ```
 
-7. Memodifikasi `main.html` dengan menambahkan potongan kode di bawah untuk menampilkan item yang telah di input oleh _user_ dalam tabel dan menambah tombol yang akan mengarah menuju ke laman `create_item`.
+7. Memodifikasi `main.html` dengan menambahkan potongan kode di bawah untuk menampilkan item yang telah di input oleh _user_ dalam tabel dan menambah tombol yang akan mengarah menuju ke laman `create_item`. Saya disini menambahkan fitur pesan yang akan memberitahu _user_ berapa banyak _object_ Item yang telah dimasukkan ke dalam aplikasi sebelum tabel.
 ```
 ...
 {% block content %}
