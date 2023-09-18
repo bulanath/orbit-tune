@@ -1,13 +1,56 @@
-<h1>OrbitTune</h1>
-<h3>An Easier Way to Keep Track of your Instruments!</h3>
+{% extends 'base.html' %}
 
-<h5>Instrument: </h5>
-<p>{{ instrument }}</p>
-<h5>Brand: </h5>
-<p>{{ brand }}</p>
-<h5>Type: </h5>
-<p>{{ type }}</p>
-<h5>Amount: </h5>
-<p>{{ amount }}</p>
-<h5>Description: </h5>
-<p>{{ description }}</p>
+{% block content %}
+    <style>
+        body {
+            text-align: center;
+            font-family: Helvetica;
+        }
+        table, th, td {
+            width: 560px;
+            border: 1px solid black;
+            border-collapse: collapse;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        button {
+        width: 150px;
+        padding: 5px 10px;
+        }
+    </style>
+
+    <h1>OrbitTune</h1>
+    <h3>An Easier Way to Keep Track of your Instruments!</h3>
+    <p>You have inserted <b>{{ items_count }}</b> instrument in this app</p>
+
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Brand</th>
+            <th>Type</th>
+            <th>Amount</th>
+            <th>Description</th>
+        </tr>
+    
+        {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini {% endcomment %}
+    
+        {% for item in items %}
+            <tr>
+                <td>{{item.name}}</td>
+                <td>{{item.brand}}</td>
+                <td>{{item.type}}</td>
+                <td>{{item.amount}}</td>
+                <td>{{item.description}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    
+    <br />
+    
+    <a href="{% url 'main:create_item' %}">
+        <button>
+            Add New Instrument
+        </button>
+    </a>
+{% endblock content %}
