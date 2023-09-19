@@ -233,3 +233,6 @@ Setelah itu saya melakukan _routing url_ dengan menambahkan _path_ pada `urlpatt
 #### Referensi
 [Situs Web PBP Ganjil 2023/2024](https://pbp-fasilkom-ui.github.io/ganjil-2024/)<br>
 [Working with forms - Django](https://docs.djangoproject.com/en/4.2/topics/forms/)
+
+#### Arsip
+[Tugas 2](https://github.com/bulanath/orbit-tune/blob/eb845075b3538b59a17f5253ad32e3218c983b21/README.md)
