@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+    <title>Sign Up</title>
+{% endblock meta %}
+
+{% block content %} 
+<style>
+    body {
+        font-family: Helvetica;
+    }
+    input[type=text], input[type=number], input[type=password] {
+        width: 250px;
+        height: 30px;
+        padding: 5px 5px;
+        box-sizing: border-box;
+        margin-block-start: 10px;
+    }
+    input[type=button], input[type=submit] {
+        width: 70px;
+        height: 30px;
+        padding: 5px 5px;
+        margin-top: 15px;
+    }
+    label {
+        margin-right: 15px;
+        float: left;
+    }
+</style> 
+
+<div class = "login">
+    
+    <h1>Sign Up</h1>  
+
+        <form method="POST" >  
+            {% csrf_token %}  
+            <table>  
+                {{ form.as_table }}  
+                <tr>  
+                    <td></td>
+                    <td><input type="submit" name="submit" value="Sign Up"/></td>  
+                </tr>  
+            </table>  
+        </form>
+
+    {% if messages %}  
+        <ul>   
+            {% for message in messages %}  
+                <li>{{ message }}</li>  
+                {% endfor %}  
+        </ul>   
+    {% endif %}
+
+</div>  
+{% endblock content %}

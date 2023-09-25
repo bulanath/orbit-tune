@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+    <title>Login</title>
+{% endblock meta %}
+
+{% block content %}
+<style>
+    body {
+        font-family: Helvetica;
+    }
+    input[type=text], input[type=number], input[type=password] {
+        width: 120px;
+        height: 30px;
+        padding: 5px 5px;
+        box-sizing: border-box;
+        margin-block-start: 10px;
+    }
+    input[type=button], input[type=submit] {
+        width: 70px;
+        height: 30px;
+        padding: 5px 5px;
+        margin-top: 15px;
+    }
+    label {
+        margin-right: 15px;
+        float: left;
+    }
+</style>
+
+<div class = "login">
+
+    <h1>Login</h1>
+
+    <form method="POST" action="">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td>Username: </td>
+                <td><input type="text" name="username" placeholder="Username" class="form-control"></td>
+            </tr>
+                    
+            <tr>
+                <td>Password: </td>
+                <td><input type="password" name="password" placeholder="Password" class="form-control"></td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td><input class="btn login_btn" type="submit" value="Login"></td>
+            </tr>
+        </table>
+    </form>
+
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}     
+    
+    </br>
+    Don't have an account yet? <a href="{% url 'main:signup' %}">Sign Up Now</a>
+
+</div>
+
+{% endblock content %}
