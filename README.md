@@ -172,6 +172,7 @@ path('increment/<int:item_id>/', increment_item, name='increment_item'),
 path('delete/<int:item_id>/', delete_item, name='delete_item'),
 ```
 17. Terakhir, saya mencoba untuk membuat dua akun _user_ pada aplikasi dan masing-masing akun menambahkan tiga macam objek ke dalam inventori dengan bukti sebagai berikut.
+<img width="350" alt="Screenshot 2023-09-26 122710" src="https://github.com/bulanath/orbit-tune/assets/104998027/bed4450a-a547-4cf3-aa12-a848c2b09875"><img width="350" alt="Screenshot 2023-09-26 122730" src="https://github.com/bulanath/orbit-tune/assets/104998027/f67f673a-5915-4eef-97ac-4eaf140e4f1e">
 
 ## Tugas 3
 ### Apa perbedaan antara form `POST` dan form `GET` dalam Django?
