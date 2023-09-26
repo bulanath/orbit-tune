@@ -11,8 +11,7 @@ Django `UserCreationForm` merupakan _built-in_ form milik Django untuk sistem au
 - Memiliki sistem keamanan yang kuat karena `UserCreationForm` sudah secara otomatis melakukan _password hashing_ yang menyebabkan peretas sulit dalam mengakses _password_ biasa. `UserCreationForm` sudah terintegrasi dengan sistem autentikasi milik Django sehingga implementasi fitur seperti _login_, _reset password_, dan sebagainya menjadi lebih mudah.
 - Kompatibel dengan berbagai _extensions_ dan aplikasi pihak ketiga karena `UserCreationForm` merupakan bagian dari _library_ standar Django.
 
-Sedangkan kelemahan dari `UserCreationForm` adalah:
-
+Kekurangan dari `UserCreationForm` adalah:
 - `UserCreationForm` kurang fleksibel karena untuk registrasi yang kompleks `UserCreationForm` terlalu sederhana. Sehingga jika kita ingin menambahkan fitur tambahan perlu untuk membuat form baru atau _extend_ form yang sudah ada tersebut.
 - Desainnya bisa saja kurang sesuai dengan konsep yang diinginkan pada situs web kita sehingga perlu untuk mempersonalisasikan lagi tampilan form jika menggunakan `UserCreationForm`.
 - `UserCreationForm` sangat bergantung kepada sistem autentikasi Django sehingga akan kurang cocok bagi proyek yang ingin menambahkan metode autentikasi eksternal.
