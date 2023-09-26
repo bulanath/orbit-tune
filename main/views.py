@@ -47,6 +47,7 @@ def register(request):
             form.save()
             messages.success(request, 'Your account has been successfully created!')
             return redirect('main:login')
+        
     context = {'form':form}
     return render(request, 'signup.html', context)
 
@@ -71,6 +72,7 @@ def logout_user(request):
     response.delete_cookie('last_login')
     return response
 
+#Fungsi untuk fitur menambah dan mengurangi amount stok
 def decrement_item(request, item_id):
     item = get_object_or_404(Item, id=item_id)
     if request.method == 'POST':
@@ -89,16 +91,12 @@ def increment_item(request, item_id):
             item.save()
     return redirect('main:show_main')
 
+#Fungsi untuk fitur menghapus objek dari inventori
 def delete_item(request, item_id):
-    # Get the item to be deleted or return a 404 error if it doesn't exist
     item = get_object_or_404(Item, id=item_id)
-
     if request.method == 'POST':
-        # If the request is a POST request, delete the item and redirect to the main page
         item.delete()
         return redirect('main:show_main')
-
-    # Render a confirmation page (optional)
     return render(request, 'delete_item.html', {'item': item})
 
 def show_xml(request):
