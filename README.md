@@ -13,8 +13,8 @@ Django `UserCreationForm` merupakan _built-in_ form milik Django untuk sistem au
 
 Sedangkan kelemahan dari `UserCreationForm` adalah:
 
-- Kurang fleksibel karena untuk registrasi yang kompleks, `UserCreationForm` terlalu sederhana. Sehingga jika kita ingin menambahkan fitur tambahan perlu untuk membuat form baru atau _extend_ form yang sudah ada tersebut.
-- Desainnya bisa saja kurang sesuai dengan konsep yang diinginkan pada situs web kita sehingga perlu untuk dipersonalisasikan lagi tampilan formnya.
+- `UserCreationForm` kurang fleksibel karena untuk registrasi yang kompleks `UserCreationForm` terlalu sederhana. Sehingga jika kita ingin menambahkan fitur tambahan perlu untuk membuat form baru atau _extend_ form yang sudah ada tersebut.
+- Desainnya bisa saja kurang sesuai dengan konsep yang diinginkan pada situs web kita sehingga perlu untuk mempersonalisasikan lagi tampilan form jika menggunakan `UserCreationForm`.
 - `UserCreationForm` sangat bergantung kepada sistem autentikasi Django sehingga akan kurang cocok bagi proyek yang ingin menambahkan metode autentikasi eksternal.
 
 ### Apa perbedaan antara autentikasi dan otorisasi dalam konteks Django, dan mengapa keduanya penting?
@@ -22,19 +22,19 @@ Autentikasi merupakan proses verifikasi identitas pengguna, sistem, atau entitas
 
 Otorisasi merupakan proses verifikasi apakah pengguna, sistem, atau entitas dapat memiliki akses ke sebuah _platform_ tersebut. Otorisasi memastikan bahwa pengguna hanya dapat mengakses ke sumber daya yang relevan sesuai dengan peran mereka saja. 
 
-Setelah data pengguna melalui tahap autentikasi, Otorisasi akan mendefinisikan aksi dan fitur apa yang dapat pengguna pakai dan data apa yang dapat mereka akses. Kedua hal ini sangat penting dan berpengaruh dalam meningkatkan keamanan pada _platform_ serta untuk mengurangi risiko kebocoran data.
+Setelah data pengguna melalui tahap autentikasi, otorisasi akan mendefinisikan aksi dan fitur apa yang dapat pengguna pakai dan data apa yang dapat mereka akses. Kedua hal ini sangat penting dan berpengaruh dalam meningkatkan keamanan pada _platform_ serta untuk mengurangi risiko kebocoran data.
 
 ### Apa itu _cookies_ dalam konteks aplikasi web, dan bagaimana Django menggunakan _cookies_ untuk mengelola data sesi pengguna?
-_Cookies_ merupakan sejumlah informasi yang dikirim oleh server web ke _browser_ dan kemudian akan dikirim kembali oleh browser untuk permintaan halaman mendatang. _Cookie_ digunakan untuk otentikasi, manajemen sesi, personalisasi, dan pelacakan.
+_Cookies_ merupakan sejumlah informasi yang dikirim oleh server web ke _browser_ dan kemudian akan dikirim kembali oleh browser untuk permintaan halaman mendatang. _Cookie_ biasanya digunakan untuk otentikasi, manajemen sesi, personalisasi, dan pelacakan.
 
 Django menggunakan _cookies_ untuk menyimpan data sesi pengguna yang dinamakan dengan _session id_. _Session id_ akan menyimpan _key_ dari sesi ke dalam _browser_. Data sesi yang sebenarnya akan disimpan di dalam _database_. Pada permintaan berikutnya, _browser_ akan mengirimkan _cookies sessionid_ ke server. Django memanfaatkan _cookies_ ini untuk mengambil data sesi pengguna dan membuatnya dapat diakses di dalam kode program. Fitur _session_ ini akan otomatis diaktifkan ketika kita memulai sebuah proyek Django.
 
 ### Apakah penggunaan _cookies_ aman secara _default_ dalam pengembangan web, atau apakah ada risiko potensial yang harus diwaspadai?
-_Cookies_ sangat aman jika diimplementasikan dengan benar. Akan tetapi terdapat beberapa risiko potensial yang harus diwaspadai seperti:
+_Cookies_ sangat aman jika diimplementasikan dengan benar. Akan tetapi terdapat beberapa risiko potensial yang harus diwaspadai diantaranya adalah:
 
 - _Cookie Poisoning_. Dimana penyerang mencoba memodifikasi isi _cookies_ dan merusak _cookies_ pengguna.
-- _Cross-Site Scripting_ (XSS). Jika seseorang berhasil melakukan serangan XSS mereka bisa mendapatkan akses _session cookies_ dan mengakses situs web sebagai pengguna tersebut.
-- _Cookie Sniffing_. Jika situs web tidak menggunakan HTTPS maka _cookies_ bisa dengan mudah untuk diambil oleh peretas yang memantau lalu lintas jaringan. Hal ini dapat mengarah kepada pencurian sesi.
+- _Cross-Site Scripting_ (XSS). Jika seseorang berhasil melakukan serangan XSS, mereka bisa mendapatkan akses _session cookies_ dan mengakses situs web sebagai pengguna tersebut.
+- _Cookie Sniffing_. Jika situs web tidak menggunakan HTTPS maka _cookies_ bisa dengan mudah untuk diambil oleh peretas yang memantau lalu lintas jaringan. Hal ini dapat mengarah kepada pencurian sesi pengguna.
 - Kebocoran Data. _Cookies_ akan senantiasa mengirimkan data ke server setiap permintaan HTTP dibuat. Jika terdapat data sensitif yang disimpan dalam _cookies_, ada risiko terjadinya kebocoran data ketika _cookies_ diambil oleh peretas.
 
 ### Jelaskan bagaimana cara kamu mengimplementasikan _checklist_ di atas secara _step-by-step_
@@ -74,7 +74,7 @@ def login_user(request):
     context = {}
     return render(request, 'login.html', context)
 ```
-Kemudian saya menambahkan berkas HTML baru `login.html` pada `main` sebagai _template_ untuk halaman _login_.
+Kemudian, saya menambahkan berkas HTML baru `login.html` pada `main` sebagai _template_ untuk halaman _login_.
 
 4. Melakukan _import_ `login_user` pada `urls.py` dan menambahkan _routing_ baru pada `urlpatterns` dengan menambahkan kode berikut.
 ```
@@ -93,7 +93,85 @@ Sehabis itu, saya menambahkan _button_ baru pada `main.html` dengan _hyperlink t
 path('logout/', logout_user, name='logout'),
 ```
 
-7. 
+7. Merestriksi akses halaman _main_ dengan meng-_import_ `login_required` dan menambahkan `@login_required(login_url='/login')` pada `views.py` agar hanya _user_ yang sudah terautentikasi saja yang dapat mengakses laman tersebut.
+8. Kemudian saya menggunakan _cookies_ untuk menambahkan data _last login_ pada halaman _main_. Saya meng-_import_ `datetime` pada `views.py` dan mengubah fungsi `login_user` untuk menambahkan _cookie_ baru bernama `last_login` agar bisa melihat kapan _user_ terakhir melakukan aktivitas _login_.
+9. Menambah _pair_ baru pada `context` di fungsi `show_main` yaitu `'last_login': request.COOKIES.get('last_login'),` agar info _cookie last_login_ dapat ditampilkan pada _template_. Kemudian agar _cookie last_login_ terhapus saat _user_ melakukan _logout_, saya menambahkan potongan kode `response.delete_cookie('last_login')` pada fungsi `logout_user`.
+10. Menghubungkan model `Item` dengan `User` agar setiap item pada aplikasi terasosiasikan dengan seorang _user_. Saya meng-_import_ model `User` pada `models.py` dan kemudian menambahkan atribut `user` dengan menambahkan kode `user = models.ForeignKey(User, on_delete=models.CASCADE)` pada model `Item`.
+11. Mengubah fungsi `create_item` menjadi sebagai berikut untuk memastikan objek akan dimiliki oleh _user_ yang telah terotorisasi.
+```
+...
+if form.is_valid() and request.method == "POST":
+        item = form.save(commit=False)
+        item.user = request.user
+        item.save()
+        return HttpResponseRedirect(reverse('main:show_main'))
+...
+```
+Setelah itu, saya menambahkan kode baru pada `context` di fungsi `show_main` yaitu `'name': request.user.username,` agar nama pengguna _user_ dapat ditampilkan di _template_. Kemudian saya melakukan migrasi model karena telah melakukan perubahan pada `models.py`.
+
+12. Saya membuat fitur baru untuk menambahkan dan mengurangi `amount` jumlah objek pada halaman web. Yang pertama dilakukan adalah saya meng-_import_ `get_object_or_404` dan membuat fungsi baru `decrement_item` dan `increment_item` pada `views.py` sebagai berikut.
+```
+def decrement_item(request, item_id):
+    item = get_object_or_404(Item, id=item_id)
+    if request.method == 'POST':
+        amount_change = int(request.POST.get('amount', 0))
+        if item.amount > 0 and amount_change < 0:
+            item.amount += amount_change
+            item.save()
+    return redirect('main:show_main')
+
+def increment_item(request, item_id):
+    item = get_object_or_404(Item, id=item_id)
+    if request.method == 'POST':
+        amount_change = int(request.POST.get('amount', 0))
+        if amount_change > 0:
+            item.amount += amount_change
+            item.save()
+    return redirect('main:show_main')
+```
+Jika _user_ mengurangi atau menambahkan `amount` melalui tombol halaman web, fungsi tersebut akan mengambil jumlahnya dan kemudian mengurangi atau menambahkannya dengan nilai `amount` sebelumnya.
+
+13. Memodifikasi `main.html` menjadi sebagai berikut untuk menambahkan _button_ plus dan minus.
+```
+...
+<form method="post" action="{% url 'main:decrement_item' item.id %}">
+    {% csrf_token %}
+    <input type="hidden" name="amount" value="-1">
+    <input type="submit" value="-">
+</form>
+{{ item.amount }}
+<form method="post" action="{% url 'main:increment_item' item.id %}">
+    {% csrf_token %}
+    <input type="hidden" name="amount" value="1">
+    <input type="submit" value="+">
+</form>
+...
+```
+14. Membuat fitur baru untuk menghapus sebuah objek dari inventori dengan menggunakan _button delete_. Saya membuat fungsi `delete_item` pada `views.py` dengan potongan kode sebagai berikut.
+```
+def delete_item(request, item_id):
+    item = get_object_or_404(Item, id=item_id)
+    if request.method == 'POST':
+        item.delete()
+        return redirect('main:show_main')
+    return render(request, 'delete_item.html', {'item': item})
+```
+15. Memodifikasi `main.html` menjadi sebagai berikut untuk menambahkan _button delete_.
+```
+...
+<form method="post" action="{% url 'main:delete_item' item.id %}">
+    {% csrf_token %}
+    <button type="submit">Delete</button>
+</form>
+...
+```
+16. Melakukan _import_ `decrement_item`,`increment_item`, dan `delete_item` pada `urls.py` dan menambahkan _routing_ baru pada `urlpatterns` dengan menambahkan kode berikut.
+```
+path('decrement/<int:item_id>/', decrement_item, name='decrement_item'),
+path('increment/<int:item_id>/', increment_item, name='increment_item'),
+path('delete/<int:item_id>/', delete_item, name='delete_item'),
+```
+17. Terakhir, saya mencoba untuk membuat dua akun _user_ pada aplikasi dan masing-masing akun menambahkan tiga macam objek ke dalam inventori dengan bukti sebagai berikut.
 
 ## Tugas 3
 ### Apa perbedaan antara form `POST` dan form `GET` dalam Django?
