@@ -6,23 +6,53 @@
             text-align: center;
             font-family: Helvetica;
         }
-        table, th, td {
-            width: 560px;
-            border: 1px solid black;
+        table {
             border-collapse: collapse;
+            border: 1px solid black;
             text-align: center;
+            vertical-align: middle;
             margin-left: auto;
             margin-right: auto;
         }
+        th, td {
+            padding-inline: 20px;
+            padding-block: 10px;
+        }
+        th {
+            background-color: black;
+            color: whitesmoke;
+            text-transform: uppercase;
+        }
+        tbody tr:nth-child(odd) {
+            background-color: #fff;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #eee;
+        }
         button {
-        width: 150px;
-        padding: 5px 10px;
+            width: 165px;
+            padding: 5px 5px;
+            margin: 5px;
+            font-size: 15px;
+        }
+        .plus_minus {
+            display: flex;
+            align-items: center;
+        }
+        .plus_minus input[type=submit] {
+            width: 20px;
+            height: 20px;
+            margin: 10px;
+        }
+        .delete_item button {
+            width: 70px;
         }
     </style>
 
     <h1>OrbitTune</h1>
     <h3>An Easier Way to Keep Track of your Instruments!</h3>
-    <p>You have inserted <b>{{ items_count }}</b> instrument in this app</p>
+    <p>Hello, <b>{{ name }}</b>!</p>
+    <p>You have inserted <b>{{ items_count }}</b> instruments in this app</p>
 
     <table>
         <tr>
@@ -31,26 +61,55 @@
             <th>Type</th>
             <th>Amount</th>
             <th>Description</th>
+            <th></th>
         </tr>
-    
-        {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini {% endcomment %}
-    
+
         {% for item in items %}
             <tr>
                 <td>{{item.name}}</td>
                 <td>{{item.brand}}</td>
                 <td>{{item.type}}</td>
-                <td>{{item.amount}}</td>
+                <td>
+                    <div class="plus_minus">
+                        <form method="post" action="{% url 'main:decrement_item' item.id %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="amount" value="-1">
+                            <input type="submit" value="-">
+                        </form>
+                        {{ item.amount }}
+                        <form method="post" action="{% url 'main:increment_item' item.id %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="amount" value="1">
+                            <input type="submit" value="+">
+                        </form>
+                    </div>
+                </td>
                 <td>{{item.description}}</td>
+                <td>
+                    <div class="delete_item">
+                        <form method="post" action="{% url 'main:delete_item' item.id %}">
+                            {% csrf_token %}
+                            <button type="submit">Delete</button>
+                        </form>
+                    </div>
+                </td>
             </tr>
         {% endfor %}
     </table>
     
     <br />
+
+    <h5>Last login session: {{ last_login }}</h5>
     
     <a href="{% url 'main:create_item' %}">
         <button>
             Add New Instrument
+        </button>
+    </a>
+    </br>
+    <a href="{% url 'main:logout' %}">
+        <button>
+            Logout
         </button>
     </a>
 {% endblock content %}
