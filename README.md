@@ -4,6 +4,29 @@
 **NPM     : 2206032135**<br>
 **Kelas   : PBP C**<br>
 
+## Tugas 5
+### Jelaskan manfaat dari setiap _element selector_ dan kapan waktu yang tepat untuk menggunakannya
+- _Universal selector_ merupakan _selector_ yang digunakan untuk memilih seluruh elemen pada dokumen. _Universal selector_ digunakan untuk me-_reset_ atau menetapkan gaya _default_ untuk seluruh elemen pada halaman web.
+```
+* {
+    property: value;
+}
+```
+
+- _Type selector_ merupakan _selector_ yang digunakan untuk memilih seluruh elemen HTML dengan tipe yang spesifik. _Type selector_ cocok untuk menetapkan gaya untuk seluruh elemen pada tipe yang sama pada dokumen.
+```
+<!-- _Type selector_ untuk tipe p -->
+p {
+    property: value;
+}
+```
+
+- 
+### Jelaskan HTML5 Tag yang kamu ketahui
+### Jelaskan perbedaan antara _margin_ dan _padding_
+### Jelaskan perbedaan antara _framework_ CSS Tailwind dan Bootstrap. Kapan sebaiknya kita menggunakan Bootstrap daripada Tailwind, dan sebaliknya?
+### Jelaskan bagaimana cara kamu mengimplementasikan _checklist_ di atas secara _step-by-step_
+
 ## Tugas 4
 ### Apa itu Django `UserCreationForm`, dan jelaskan apa kelebihan dan kekurangannya?
 Django `UserCreationForm` merupakan _built-in_ form milik Django untuk sistem autentikasi registrasi _user_. Kelebihan dari `UserCreationForm` adalah:
