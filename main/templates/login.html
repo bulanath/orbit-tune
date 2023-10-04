@@ -1,68 +1,51 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block meta %}
     <title>Login</title>
 {% endblock meta %}
 
 {% block content %}
-<style>
-    body {
-        font-family: Helvetica;
-    }
-    input[type=text], input[type=number], input[type=password] {
-        width: 120px;
-        height: 30px;
-        padding: 5px 5px;
-        box-sizing: border-box;
-        margin-block-start: 10px;
-    }
-    input[type=button], input[type=submit] {
-        width: 70px;
-        height: 30px;
-        padding: 5px 5px;
-        margin-top: 15px;
-    }
-    label {
-        margin-right: 15px;
-        float: left;
-    }
-</style>
+<link rel="stylesheet" type="text/css" href="{% static 'login.css' %}">
 
-<div class = "login">
+<div class="container">
+    <div class="row">
+      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+        <div class="card border-0 shadow rounded-3 my-5">
+          <div class="card-body p-4 p-sm-5">
+            <h5 class="card-title text-center mb-5 fw-bold fs-4">Login to OrbiTune</h5>
+            <form method="POST" action="">
+                {% csrf_token %}
+              <div class="form-floating mb-3">
+                <input type="text" name="username" placeholder="Username" class="form-control" id="floatingPassword">
+                <label for="floatingInput">Username</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="password" name="password" placeholder="Password" class="form-control" id="floatingPassword">
+                <label for="floatingPassword">Password</label>
+              </div>
 
-    <h1>Login</h1>
-
-    <form method="POST" action="">
-        {% csrf_token %}
-        <table>
-            <tr>
-                <td>Username: </td>
-                <td><input type="text" name="username" placeholder="Username" class="form-control"></td>
-            </tr>
-                    
-            <tr>
-                <td>Password: </td>
-                <td><input type="password" name="password" placeholder="Password" class="form-control"></td>
-            </tr>
-
-            <tr>
-                <td></td>
-                <td><input class="btn login_btn" type="submit" value="Login"></td>
-            </tr>
-        </table>
-    </form>
-
-    {% if messages %}
-        <ul>
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}     
-    
-    </br>
-    Don't have an account yet? <a href="{% url 'main:signup' %}">Sign Up Now</a>
-
+              <div class="d-grid">
+                <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit" value="Login">Login</button>
+              </div>
+              <div class="text-center text-muted mb-5 fw-normal">
+                {% if messages %}
+                        {% for message in messages %}
+                            </br>
+                            {{ message }}
+                        {% endfor %}
+                {% endif %}  
+              </div>
+            <hr class="my-5">
+              <div class="text-center mb-1 fw-normal">
+                <label class="form-check-label">Don't have an account yet? <a href="{% url 'main:signup' %}" class="text-decoration-none">Sign Up Now</a></label>
+              </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
 </div>
 
 {% endblock content %}

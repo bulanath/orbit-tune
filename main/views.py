@@ -62,7 +62,7 @@ def login_user(request):
             response.set_cookie('last_login', str(datetime.datetime.now()))
             return response
         else:
-            messages.info(request, 'Sorry, incorrect username or password. Please try again.')
+            messages.info(request, 'Incorrect username or password. Please try again.')
     context = {}
     return render(request, 'login.html', context)
 
@@ -98,6 +98,18 @@ def delete_item(request, item_id):
         item.delete()
         return redirect('main:show_main')
     return render(request, 'delete_item.html', {'item': item})
+
+def edit_item(request, id):
+    item = Item.objects.get(pk = id)
+
+    form = ItemForm(request.POST or None, instance=item)
+
+    if form.is_valid() and request.method == "POST":
+        form.save()
+        return HttpResponseRedirect(reverse('main:show_main'))
+
+    context = {'form': form, 'item':item}
+    return render(request, "edit_item.html", context)
 
 def show_xml(request):
     data = Item.objects.all()

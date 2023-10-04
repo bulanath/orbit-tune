@@ -4,6 +4,107 @@
 **NPM     : 2206032135**<br>
 **Kelas   : PBP C**<br>
 
+## Tugas 5
+### Jelaskan manfaat dari setiap _element selector_ dan kapan waktu yang tepat untuk menggunakannya
+- _Universal selector_ merupakan _selector_ yang digunakan untuk memilih seluruh elemen pada dokumen. _Universal selector_ digunakan untuk me-_reset_ atau menetapkan gaya _default_ untuk seluruh elemen pada halaman web.
+```
+* {
+    property: value;
+}
+```
+- _Type selector_ merupakan _selector_ yang digunakan untuk memilih seluruh elemen HTML dengan tipe yang spesifik. _Type selector_ cocok untuk menetapkan gaya bagi seluruh elemen dengan tipe yang sama pada dokumen.
+```
+p {
+    property: value;
+}
+```
+- _Class selector_ merupakan _selector_ yang digunakan untuk memilih elemen HTML berdasarkan jenis kelas yang dimiliki. _Class selector_ cocok jika ingin memilih beberapa elemen sekaligus dan menetapkan gaya yang sama tanpa harus menetapkan gaya terhadap setiap elemen secara terpisah.
+```
+.my_class {
+    property: value;
+}
+```
+- _ID selector_ merupakan _selector_ yang digunakan untuk memilih elemen HTML berdasarkan _value_ dari ID yang dimiliki. _ID selector_ cocok digunakan jika ingin menetapkan gaya pada satu elemen tertentu yang bersifat unik.
+```
+#my_id {
+    property: value;
+}
+```
+- _Pseudo-class selector_ merupakan _selector_ yang digunakan untuk memilih elemen yang berada pada keadaan spesifik. _Pseudo-class selector_ cocok digunakan ketika ingin menerapkan gaya berdasarkan keadaan elemen ketika melakukan interaksi dengan pengguna.
+```
+element:pseudo-class-name {
+    property: value;
+}
+```
+
+### Jelaskan HTML5 Tag yang kamu ketahui
+- <__html__> merupakan elemen _root_ dari setiap halaman HTML yang bertujuan untuk mengelilingi konten satu halaman.
+- <__head__> berisi seluruh elemen yang digunakan untuk mendeskripsikan dokumen HTML.
+- <__title__> berisi judul halaman HTML yang akan terlihat pada _browser_.
+- <__body__> berisi konten yang berada dalam halaman web.
+- <__p__> bertujuan untuk mendefinisikan paragraf dalam halaman web.
+- <__h1__> sampai <__h6__> merupakan _heading tag_ yang digunakan untuk mendefinisikan _heading_ dalam dokumen HTML, dengan 1 yang paling besar dan 6 yang paling kecil.
+- <__em__> digunakan untuk menekankan teks tertentu pada sebuah paragraf.
+- <__b__> digunakan untuk memberikan sifat _bold_ pada teks.
+- <__i__> digunakan untuk memberikan sifat _italic_ pada teks.
+- <__u__> digunakan untuk memberikan sifat _underline_ pada teks.
+- <__a__> digunakan untuk membuat tautan _hyperlink_ ke halaman lain.
+- <__img__> digunakan untuk menampilkan gambar pada halaman web.
+- <__li__> digunakan untuk membuat _list_ pada halaman web. _Tag_ ini dibagi lagi menjadi dua, dimana <__ol__> bersifat _ordered_ menggunakan angka dan <__ul__> bersifat _unordered_.
+- <__table__> digunakan untuk membuat tabel pada halaman web.
+- <__tr__> digunakan untuk membuat baris tabel.
+- <__td__> digunakan untuk memasukkan data ke dalam tabel.
+- <__style__> digunakan untuk menambahkan CSS langsung di dalam halaman HTML.
+- <__meta__> digunakan untuk menyisipkan informasi meta terkait halaman web.
+- <__div__> merupakan elemen blok untuk mengelompokkan dan mengatur elemen HTML.
+- <__span__> digunakan untuk memberikan gaya kepada sebagian kecil teks atau konten HTML.
+- <__form__> digunakan untuk membuat formulir interaktif yang memungkinkan pengguna mengirim data ke _server_.
+- <__button__> digunakan untuk membuat tombol yang dapat diklik oleh pengguna.
+- <__thead__>, <__tbody__>, <__tfoot__> digunakan untuk mengelompokkan masing-masing bagian kepala, isi, dan kaki dari tabel.
+- <__input__> digunakan untuk membuat berbagai jenis input pada _form_.
+- <__textarea__> merupakan jenis input yang memungkinkan pengguna untuk memasukkan teks yang berukuran panjang.
+- <__video__> digunakan untuk menampilkan video pada halaman web.
+- <__audio__> digunakan untuk menampilkan audio pada halaman web.
+
+### Jelaskan perbedaan antara _margin_ dan _padding_
+_Margin_ merupakan spasi antara _border_ sebuah elemen dengan elemen lainnya. Sedangkan _padding_ merupakan spasi antara _border_ sebuah elemen dengan _content_ elemen itu sendiri.
+
+### Jelaskan perbedaan antara _framework_ CSS Tailwind dan Bootstrap. Kapan sebaiknya kita menggunakan Bootstrap daripada Tailwind, dan sebaliknya?
+Tailwind CSS merupakan _framework_ yang memberikan banyak kelas utilitas untuk membangun desain secara fleksibel. Tailwind berukuran lebih ringan karena hanya memuat kelas-kelas yang digunakan di halaman web. Tailwind juga tidak memiliki ketergantungan terhadap JavaScript. Tailwind memiliki fleksibilitas dan adaptabilitas yang tinggi terhadap proyek. 
+
+Sedangkan Bootstrap merupakan _framework_ yang menyediakan komponen-komponen yang sudah siap pakai. Bootstrap berukuran lebih besar karena secara _default_ menyertakan semua komponen. Bootstrap memiliki ketergantungan terhadap JavaScript karena ada beberapa komponen dan fungsionalitas Bootstrap yang hanya bisa digunakan dengan bantuan JavaScript. Bootstrap akan menghasilkan tampilan yang lebih konsisten di seluruh proyek karena menggunakan komponen yang sudah idefinisikan.
+
+Bootstrap sangat cocok digunakan jika diperlukan proses pengembangan yang cepat karena _learning curve_ dalam menggunakan Bootstrap tidak securam jika menggunakan Tailwind. Hal ini disebabkan oleh _framework_ Bootstrap yang sudah menyediakan komponen-komponen sudah siap pakai tanpa harus menulis kode dari awal. Tailwind lebih cocok digunakan jika sebuah proyek membutuhkan kontrol dan penyesuaian penuh terhadap seluruh aspek desain pada web karena Tailwind lebih bersifat fleksibel dan _customizable_.
+
+### Jelaskan bagaimana cara kamu mengimplementasikan _checklist_ di atas secara _step-by-step_
+1. Pertama, saya menambahkan Bootstrap terlebih dahulu ke dalam _template_ aplikasi saya.
+2. Selanjutnya saya menambahkan fitur edit ke dalam aplikasi dengan menambahkan fungsi berikut ke dalam `views.py`, menambahkan file baru pada `templates`, dan membuat _routing_ pada `urls.py` untuk fitur ini.
+```
+def edit_item(request, id):
+    item = Item.objects.get(pk = id)
+
+    form = ItemForm(request.POST or None, instance=item)
+
+    if form.is_valid() and request.method == "POST":
+        form.save()
+        return HttpResponseRedirect(reverse('main:show_main'))
+
+    context = {'form': form, 'item':item}
+    return render(request, "edit_item.html", context)
+```
+3. Untuk halaman `Login` dan `Sign Up`, saya menggunakan _file_ css yang sama, yakni `login.css` pada folder `static` untuk mengatur tampilannya. Pada kedua halaman ini saya memanfaatkan komponen _card_ milik Bootstrap. Di setiap _input box_-nya, saya menggunakan komponen _floating labels_ untuk memperindah _card_. Saya juga menambahkan foto dan _linear gradient_ pada _background_ halaman ini.
+4. Untuk halaman `main`, saya menggunakan _file_ css `main.css` untuk mengatur tampilannya. Pertama, saya membuat _navbar_ yang bersifat _fixed_ berada di bagian atas halaman web dan akan ikut ketika pengguna melakukan _scroll_. Pada _navbar_ pengguna dapat menambahkan item instrumen baru atau melakukan _logout_.
+5. Kemudian saya membuat _masthead_ untuk menampilkan nama pengguna dan seberapa banyak instrumen yang telah dimasukkan ke dalam inventori. Saya menambahkan _button See Instruments_ pada _masthead_ yang dapat melakukan _scroll_ ke bagian _card_ yang berisi inventori instrumen jika diklik.
+6. Saya mengganti tabel menjadi _card_ untuk menampilkan inventori dengan memanfaatkan komponen milik Bootstrap. Pada setiap _card_ terdapat _button_ untuk menambah/mengurangi banyak instrumen, melakukan _edit_ terhadap data instrumen, dan menghapus instrumen.
+7. Pada bagian bawah halaman `main` saya menambahkan _footer_. Pada bagian ini saya menambahkan _horizontal divider_ dan juga menampilkan info _last login session_ pengguna yang sedang _login_.
+8. Untuk halaman `Add New Instrument` dan `Edit Instrument`, saya menggunakan _file_ css yang sama, yakni `form.css`. Pada kedua halaman ini saya memanfaatkan _card_ dan _floating form_ untuk membuat desain halaman web. Yang membedakan dari kedua halaman tersebut adalah pada halaman `Edit Instrument`, _form_ sudah terisi data yang telah di-_input_ sebelumnya sehingga pengguna lebih mudah untuk menyunting datanya. 
+9. Terakhir, saya menambahkan fitur bonus untuk memberikan warna yang berbeda pada _card_ urutan terakhir dengan menambahkan perintah berikut pada `main.html`
+```
+<div class="card {% if forloop.last %} last-card {% endif %}">
+```
+
+Pada file `main.css` saya menambahkan _class selector_ `.last card` dan membuat `backgound-color` _card_ tersebut menjadi berwarna yang berbeda dari yang lain, yakni `#e4f6f8`.
+
 ## Tugas 4
 ### Apa itu Django `UserCreationForm`, dan jelaskan apa kelebihan dan kekurangannya?
 Django `UserCreationForm` merupakan _built-in_ form milik Django untuk sistem autentikasi registrasi _user_. Kelebihan dari `UserCreationForm` adalah:
