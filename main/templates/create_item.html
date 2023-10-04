@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block meta %}
-    <title>Edit Instrument</title>
+    <title>Add New Instrument</title>
 {% endblock meta %}
 
 {% block content %}
@@ -14,33 +14,31 @@
             <div class="col-sm-8 col-md-7 col-lg-5 mx-auto">
                 <div class="card custom-card">
                     <div class="card-body p-4 p-sm-5">
-                        <h5 class="card-title text-center fw-bold fs-4 mb-3 text-white">Edit Instrument</h5>
+                        <h5 class="card-title text-center fw-bold fs-4 mb-3 text-white">Add New Instrument</h5>
                         <form method="POST">
                             {% csrf_token %}
-                            
                             <div class="form-floating mb-3">
-                                <input type="text" name="{{ form.name.name }}" placeholder="Name" class="form-control" id="floatingName" value="{{ form.name.value }}">
+                                <input type="text" name="{{ form.name.name }}" placeholder="Name" class="form-control" id="floatingName">
                                 <label for="floatingName">{{ form.name.label }}</label>
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="text" name="{{ form.brand.name }}" placeholder="Brand" class="form-control" id="floatingBrand" value="{{ form.brand.value }}">
+                                <input type="text" name="{{ form.brand.name }}" placeholder="Brand" class="form-control" id="floatingBrand">
                                 <label for="floatingBrand">{{ form.brand.label }}</label>
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="text" name="{{ form.type.name }}" placeholder="Type" class="form-control" id="floatingType" value="{{ form.type.value }}">
+                                <input type="text" name="{{ form.type.name }}" placeholder="Type" class="form-control" id="floatingType">
                                 <label for="floatingType">{{ form.type.label }}</label>
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="number" name="{{ form.amount.name }}" placeholder="Amount" class="form-control" id="floatingAmount" value="{{ form.amount.value }}">
+                                <input type="number" name="{{ form.amount.name }}" placeholder="Amount" class="form-control" id="floatingAmount">
                                 <label for="floatingAmount">{{ form.amount.label }}</label>
                             </div>
                             <div class="form-floating mb-4">
-                                <textarea name="{{ form.description.name }}" placeholder="Description" class="form-control" id="floatingDescription" rows="3">{{ form.description.value }}</textarea>
+                                <textarea name="{{ form.description.name }}" placeholder="Description" class="form-control" id="floatingDescription" rows="3"></textarea>
                                 <label for="floatingDescription">{{ form.description.label }}</label>
                             </div>
-                            
                             <div class="d-grid">
-                                <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit" name="submit" value="Edit Instrument">Edit Instrument</button>
+                                <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit" name="submit" value="Add Instrument">Add Instrument</button>
                             </div>
                         </form>
                     </div>

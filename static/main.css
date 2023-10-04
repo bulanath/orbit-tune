@@ -72,3 +72,11 @@ font-size: 2rem;
 .edit-delete {
     margin-top: 20px;
 }
+
+.last-card {
+    width: 18rem;
+    padding: 5px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    background-color: #e4f6f8;
+}
