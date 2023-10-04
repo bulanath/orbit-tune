@@ -98,6 +98,12 @@ def edit_item(request, id):
 6. Saya mengganti tabel menjadi _card_ untuk menampilkan inventori dengan memanfaatkan komponen milik Bootstrap. Pada setiap _card_ terdapat _button_ untuk menambah/mengurangi banyak instrumen, melakukan _edit_ terhadap data instrumen, dan menghapus instrumen.
 7. Pada bagian bawah halaman `main` saya menambahkan _footer_. Pada bagian ini saya menambahkan _horizontal divider_ dan juga menampilkan info _last login session_ pengguna yang sedang _login_.
 8. Untuk halaman `Add New Instrument` dan `Edit Instrument`, saya menggunakan _file_ css yang sama, yakni `form.css`. Pada kedua halaman ini saya memanfaatkan _card_ dan _floating form_ untuk membuat desain halaman web. Yang membedakan dari kedua halaman tersebut adalah pada halaman `Edit Instrument`, _form_ sudah terisi data yang telah di-_input_ sebelumnya sehingga pengguna lebih mudah untuk menyunting datanya. 
+9. Terakhir, saya menambahkan fitur bonus untuk memberikan warna yang berbeda pada _card_ urutan terakhir dengan menambahkan perintah berikut pada `main.html`
+```
+<div class="card {% if forloop.last %} last-card {% endif %}">
+```
+
+Pada file `main.css` saya menambahkan _class selector_ `.last card` dan membuat `backgound-color` _card_ tersebut menjadi berwarna yang berbeda dari yang lain, yakni `#e4f6f8`.
 
 ## Tugas 4
 ### Apa itu Django `UserCreationForm`, dan jelaskan apa kelebihan dan kekurangannya?
