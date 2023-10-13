@@ -1,0 +1,84 @@
+.navbar-custom {
+padding-top: 1rem;
+padding-bottom: 1rem;
+background: linear-gradient(to right, #0a53c0, #0d6efd);
+}
+
+.navbar-brand .navbar-brand {
+font-size: 1rem;
+letter-spacing: 0.1rem;
+font-weight: 700;
+}
+
+.navbar-custom .navbar-nav .nav-item .nav-link {
+font-size: 1rem;
+font-weight: 700;
+letter-spacing: 0.1rem;
+}
+
+body {
+    background-color: #fcfcfc;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+header.masthead {
+position: relative;
+overflow: hidden;
+padding-top: calc(5rem + 48px);
+padding-bottom: 32px;
+background-attachment: scroll;
+}
+
+header.masthead .masthead-content {
+z-index: 1;
+position: relative;
+}
+
+header.masthead .masthead-content .masthead-heading {
+font-size: 4rem;
+}
+
+header.masthead .masthead-content .masthead-subheading {
+font-size: 2rem;
+}
+
+.masthead-image {
+    max-width: 70%;
+    float: right; 
+    margin-left: 10px;
+}
+
+.last-card {
+    width: 18rem;
+    padding: 5px;
+    margin-bottom: 20px;
+    background-color: #e4f6f8;
+}
+
+.card {
+    width: 18rem;
+    padding: 5px;
+    margin-bottom: 20px;
+}
+
+.edit_item {
+    margin-right: 10px;
+}
+
+.plus-minus button {
+    margin-right: 5px;
+}
+
+.item-amount {
+    display: inline-block; 
+    font-weight: bold; 
+    margin-inline: 20px;
+}
+
+.edit-delete {
+    margin-top: 20px;
+}
+
+.items-container {
+    align-content: center;
+}

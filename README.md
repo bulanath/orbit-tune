@@ -4,6 +4,181 @@
 **NPM     : 2206032135**<br>
 **Kelas   : PBP C**<br>
 
+## Tugas 6
+### Jelaskan perbedaan antara _asynchronous programming_ dengan _synchronous programming_
+_Asynchronous programming_ bersifat _multi-thread_ sehingga program dapat bekerja secara paralel dan dapat dieksekusi tanpa harus menunggu setiap operasi selesai. _Asynchronous programming_ juga menggunakan operasi _non-blocking_, dimana program dapat melanjutkan eksekusi tugas lain tanpa harus menunggu operasi selesai. _Asynchronous programming_ cocok untuk aplikasi yang memerlukan responsifitas dan penggunaan sumber daya yang efisien.
+
+_Synchronous programming_ bersifat _single-thread_ sehingga program bekerja secara berurutan dan hanya bisa mengeksekusi satu operasi dalam satu waktu. _Synchronous programming_ menggunakan operasi _blocking_ dimana program memakan waktu untuk menyelesaikan program dan memblokir eksekusi program lainnya sampai operasi tersebut selesai. _Synchronous programming_ cocok untuk aplikasi sederhana dimana responsifitas tidak menjadi kebutuhan kritis.
+
+### Dalam penerapan JavaScript dan AJAX, terdapat penerapan paradigma _event-driven programming_. Jelaskan maksud dari paradigma tersebut dan sebutkan salah satu contoh penerapannya pada tugas ini
+_Event-driven programming_ merupakan paradigma pemrograman yang memungkinkan perangkat lunak merespons secara dinamis terhadap persitiwa. Peristiwa yang dimaksud adalah tindakan yang dilakukan oleh pengguna seperti mengeklik _button_ dan menggerakkan _mouse_, input sensor, atau pesan dari bagian program yang lain. Pada _event-driven programming_ biasanya program menunggu sampai peristiwa terjadi dan meresponnya dengan mengeksekusi kode yang telah ditentukan dalam bentuk _event handler_ atau _callback functions_.
+
+Contoh penerapan _event-driven programming_ pada tugas ini adalah ketika pengguna mengeklik _button_ `Add New Instrument` pada halaman web, program akan merespons dengan memunculkan _window pop-up_ berupa _form_ yang dapat diisi pengguna untuk menambahkan item baru ke dalam aplikasi.
+
+### Jelaskan penerapan _asynchronous programming_ pada AJAX
+_Asynchronous programming_ pada AJAX diterapkan saat pengguna melakukan aksi pada halaman web sehingga JavaScript meminta _request_ kepada _server_ dan memberikan hasil permintaan secara _asynchronous_ tanpa me-_refresh_ laman web untuk memberikan hasil yang terbaru. Proses tersebut dapat terjadi karena JavaScript membuat objek `XMLHttpRequest` dan objek tersebut akan mengirimkan permintaan kepada _server_ web yang akan dikirim oleh _server_ kembali menuju _browser_. Setelah JavaScript membaca respons tersebut, JavaScript akan melakukan tindakan yang tepat menyesuaikan kepada peristiwa pemicu.
+
+### Pada PBP kali ini, penerapan AJAX dilakukan dengan menggunakan Fetch API daripada _library_ jQuery. Bandingkanlah kedua teknologi tersebut dan tuliskan pendapat kamu teknologi manakah yang lebih baik untuk digunakan
+| Fetch API | _Library_ jQuery |
+| --------- | --------------- |
+| Fetch API merupakan API JavaScript yang telah diintegrasikan ke dalam halaman web sehingga dapat membuat permintaan jaringan dengan sintaks yang sederhana dan konsisten | jQuery merupakan _library_ eksternal JavaScript yang menyediakan berbagai fitur seperti permintaan AJAX yang disederhanakan untuk melakukan permintaan HTTP. |
+| Fetch API memiliki ukuran yang lebih ringan karena tidak perlu menyertakan _library_ eksternal untuk menggunakannya. | jQuery _library_ memiliki ukuran yang lebih besar dengan banyak fitur di luar permintaan AJAX. |
+| Fetch API didukung dengan baik pada _browser_ modern. Tetapi mungkin memerlukan penanganan tambahan untuk _browser_ lama, menyesuaikan tingkat kompatibilitas yang _browser_. | jQuery dapat bekerja secara konsisten pada berbagai jenis _browser_, baik yang lama maupun yang baru. |
+
+Menurut saya, penggunaan Fetch API maupun jQuery _library_ tergantung oleh kebutuhan pengembangan proyek yang dilakukan. Fetch API lebih baik digunakan jika ingin mengembangkan proyek yang membutuhkan kontrol lebih besar terhadap proses permintaan dan respons. Fetch API cocok untuk proyek yang kompleks karena bersifat lebih ringan, terstandarisasi, dan modern. Fetch API merupakan bagian dari JavaScript sehingga tidak perlu tambahan _dependencies_ atau _library_ pada proyek. Sedangkan jQuery _library_ dapat digunakan pada proyek berukuran kecil yang memerlukan kompatibilitas lintas _browser_.
+
+### Jelaskan bagaimana cara kamu mengimplementasikan _checklist_ di atas secara _step-by-step_
+1. Pertama, saya menambahkan fungsi baru `get_item_json` pada `views.py` yang berfungsi untuk mengembalikan data JSON sebagai berikut.
+```
+def get_item_json(request):
+    item = Item.objects.filter(user=request.user)
+    return HttpResponse(serializers.serialize('json', item))
+```
+2. Saya menambahkan fungsi `add_item_ajax` pada `views.py` yang berfungsi untuk menambahkan item baru ke _database_ menggunakan AJAX. Sebelum menambahkan fungsi, saya meng-_import_ `from django.views.decorators.csrf import csrf_exempt` pada `views.py`. Kemudian saya menambahkan fungsi sebagai berikut.
+```
+@csrf_exempt
+def add_item_ajax(request):
+    if request.method == 'POST':
+        name = request.POST.get("name")
+        brand = request.POST.get("brand")
+        type = request.POST.get("type")
+        amount = request.POST.get("amount")
+        description = request.POST.get("description")
+        user = request.user
+
+        new_item = Item(
+            user=user,
+            name=name,
+            brand=brand, 
+            type=type, 
+            amount=amount, 
+            description=description
+            )
+        new_item.save()
+
+        return HttpResponse(b"CREATED", status=201)
+    return HttpResponseNotFound()
+```
+3. Melakukan _routing_ URL untuk fungsi `get_item_json` dan `add_item_ajax` sebagai berikut.
+```
+...
+path('get-item/', get_item_json, name='get_item_json'),
+path('create-ajax/', add_item_ajax, name='add_item_ajax'),
+```
+4. Selanjutnya saya menghapus kode _card_ yang sudah ada menjadi sebagai berikut.
+```
+<section id="scroll">
+    <div class="container d-flex justify-content-center" id="items">
+        <!-- cards will be shown here -->
+    </div>
+</section>
+```
+5. Menambahkan _block_ `<script>` pada `main.html` dan menambahkan fungsi sebagai berikut untuk mengembalikan dan menampilkan data item secara _asynchronous_ menggunakan Fetch API.
+```
+async function getItems() {
+        return fetch("{% url 'main:get_item_json' %}").then((res) => res.json())
+    }
+
+async function refreshItems() {
+    const content = document.getElementById("items")
+    content.innerHTML = ""
+    const items = await getItems()
+    let htmlString = `<div class="row">`;
+    items.forEach((item, index) => {
+        htmlString += `<div class="col-md-4">
+            <div class="card ${index == items.length - 1 ? "last-card" : ""}">
+                <div class="card-body d-flex flex-column">
+                    <h4 class="card-title fw-bold text-primary">${item.fields.name}</h4>
+                    <h5 class="card-subtitle fw-normal mt-1"><b>${item.fields.brand}</b> - ${item.fields.type}</h5>
+                    <p class="card-text text-muted mt-2">${item.fields.description}</p>
+                    <div class="d-flex justify-content-start">
+                        <a type="button" class="btn btn-sm btn-dark btn-number" href="decrement/${item.pk}"><i class="bi bi-dash"></i></a>
+                        <h5 class="item-amount">${item.fields.amount}</h5>
+                        <a type="button" class="btn btn-sm btn-dark btn-number" href="increment/${item.pk}"><i class="bi bi-plus"></i></a>
+                    </div>
+                    <div class="edit-delete d-flex justify-content-end">
+                        <div class="edit_item">
+                            <a href="edit-item/${item.pk}" class="btn btn-sm btn-primary"><i class="bi bi-pencil-square"></i></a>
+                        </div>
+                        <div class="delete_item">
+                            <a type="button" class="btn btn-sm btn-danger" onclick="deleteItem(${item.pk})"><i class="bi bi-trash3-fill"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`
+    });
+    htmlString += '</div>'
+    document.getElementById("items").innerHTML = htmlString
+}
+
+refreshItems()
+```
+6. Kemudian saya menambahkan modal _form_ untuk menambahkan item dengan menambahkan kode berikut ke dalam `main.html`.
+```
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5 fw-bold" id="exampleModalLabel">Add New Instrument</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="form" onsubmit="return false;">
+                    {% csrf_token %}
+                    <div class="form-floating mb-3">
+                        <input type="text" name="name" placeholder="Name" class="form-control" id="floatingName">
+                        <label for="floatingName">Name</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" name="brand" placeholder="Brand" class="form-control" id="floatingBrand">
+                        <label for="floatingBrand">Brand</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" name="type" placeholder="Type" class="form-control" id="floatingType">
+                        <label for="floatingType">Type</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="number" name="amount" placeholder="Amount" class="form-control" id="floatingAmount">
+                        <label for="floatingAmount">Amount</label>
+                    </div>
+                    <div class="form-floating mb-4">
+                        <textarea name="description" placeholder="Description" class="form-control" id="floatingDescription" rows="3"></textarea>
+                        <label for="floatingDescription">Description</label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary fw-bold" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary fw-bold" id="button-add" data-bs-dismiss="modal">Add Instrument</button>
+            </div>
+        </div>
+    </div>
+</div>
+```
+7. Membuat fungsi AJAX baru di dalam _block_ `<script>` agar dapat menambahkan item secara AJAX pada program dengan kode sebagai berikut.
+```
+function addItem() {
+            fetch("{% url 'main:add_item_ajax' %}", {
+                method: "POST",
+                body: new FormData(document.querySelector('#form'))
+            }).then(refreshItems)
+
+            document.getElementById("form").reset()
+            return false
+        }
+
+        document.getElementById("button-add").onclick = addItem
+```
+8. Terakhir, saya menambahkan kode berikut pada `settings.py` agar dapat melakukan perintah `python manage.py collectstatic` untuk mengumpulkan _file static_ dari setiap aplikasi ke dalam satu folder.
+```
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+```
+
 ## Tugas 5
 ### Jelaskan manfaat dari setiap _element selector_ dan kapan waktu yang tepat untuk menggunakannya
 - _Universal selector_ merupakan _selector_ yang digunakan untuk memilih seluruh elemen pada dokumen. _Universal selector_ digunakan untuk me-_reset_ atau menetapkan gaya _default_ untuk seluruh elemen pada halaman web.
