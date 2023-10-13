@@ -1,7 +1,7 @@
 # pylint: disable=E1101, W0613, W0622
 import datetime
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseNotFound, HttpResponseRedirect, HttpResponse
 from main.models import Item
 from main.forms import ItemForm
 from django.urls import reverse
@@ -10,6 +10,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 @login_required(login_url='/login')
@@ -74,21 +75,16 @@ def logout_user(request):
 
 #Fungsi untuk fitur menambah dan mengurangi amount stok
 def decrement_item(request, item_id):
-    item = get_object_or_404(Item, id=item_id)
-    if request.method == 'POST':
-        amount_change = int(request.POST.get('amount', 0))
-        if item.amount > 0 and amount_change < 0:
-            item.amount += amount_change
-            item.save()
+    item = Item.objects.filter(pk=item_id).first()
+    if(item.amount > 0):
+        item.amount-=1
+    item.save()
     return redirect('main:show_main')
 
 def increment_item(request, item_id):
-    item = get_object_or_404(Item, id=item_id)
-    if request.method == 'POST':
-        amount_change = int(request.POST.get('amount', 0))
-        if amount_change > 0:
-            item.amount += amount_change
-            item.save()
+    item = Item.objects.filter(pk=item_id).first()
+    item.amount+=1
+    item.save()
     return redirect('main:show_main')
 
 #Fungsi untuk fitur menghapus objek dari inventori
@@ -126,3 +122,38 @@ def show_xml_by_id(request, id):
 def show_json_by_id(request, id):
     data = Item.objects.filter(pk=id)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
+def get_item_json(request):
+    item = Item.objects.filter(user=request.user)
+    return HttpResponse(serializers.serialize('json', item))
+
+@csrf_exempt
+def add_item_ajax(request):
+    if request.method == 'POST':
+        name = request.POST.get("name")
+        brand = request.POST.get("brand")
+        type = request.POST.get("type")
+        amount = request.POST.get("amount")
+        description = request.POST.get("description")
+        user = request.user
+
+        new_item = Item(
+            user=user,
+            name=name,
+            brand=brand, 
+            type=type, 
+            amount=amount, 
+            description=description
+            )
+        new_item.save()
+
+        return HttpResponse(b"CREATED", status=201)
+    return HttpResponseNotFound()
+
+@csrf_exempt
+def delete_item_ajax(request, id):
+    if request.method == 'DELETE':
+        item = Item.objects.get(pk = id)
+        item.delete()
+        return HttpResponse()
+    return HttpResponseNotFound()
