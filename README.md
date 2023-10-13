@@ -4,6 +4,31 @@
 **NPM     : 2206032135**<br>
 **Kelas   : PBP C**<br>
 
+## Tugas 6
+### Jelaskan perbedaan antara _asynchronous programming_ dengan _synchronous programming_
+_Asynchronous programming_ bersifat _multi-thread_ sehingga program dapat bekerja secara paralel dan dapat dieksekusi tanpa harus menunggu setiap operasi selesai. _Asynchronous programming_ juga menggunakan operasi _non-blocking_, dimana program dapat melanjutkan eksekusi tugas lain tanpa harus menunggu operasi selesai. _Asynchronous programming_ cocok untuk aplikasi yang memerlukan responsifitas dan penggunaan sumber daya yang efisien.
+
+_Synchronous programming_ bersifat _single-thread_ sehingga program bekerja secara berurutan dan hanya bisa mengeksekusi satu operasi dalam satu waktu. _Synchronous programming_ menggunakan operasi _blocking_ dimana program memakan waktu untuk menyelesaikan program dan memblokir eksekusi program lainnya sampai operasi tersebut selesai. _Synchronous programming_ cocok untuk aplikasi sederhana dimana responsifitas tidak menjadi kebutuhan kritis.
+
+### Dalam penerapan JavaScript dan AJAX, terdapat penerapan paradigma _event-driven programming_. Jelaskan maksud dari paradigma tersebut dan sebutkan salah satu contoh penerapannya pada tugas ini
+_Event-driven programming_ merupakan paradigma pemrograman yang memungkinkan perangkat lunak merespons secara dinamis terhadap persitiwa. Peristiwa yang dimaksud adalah tindakan yang dilakukan oleh pengguna seperti mengeklik _button_ dan menggerakkan _mouse_, input sensor, atau pesan dari bagian program yang lain. Pada _event-driven programming_ biasanya program menunggu sampai peristiwa terjadi dan meresponnya dengan mengeksekusi kode yang telah ditentukan dalam bentuk _event handler_ atau _callback functions_.
+
+Contoh penerapan _event-driven programming_ pada tugas ini adalah ketika pengguna mengeklik _button_ `Add New Instrument` pada bagian bawah halaman, program akan merespons dengan memunculkan _window pop-up_ berupa _form_ yang dapat diisi pengguna untuk menambahkan item baru ke dalam aplikasi.
+
+### Jelaskan penerapan _asynchronous programming_ pada AJAX
+_Asynchronous programming_ pada AJAX diterapkan saat pengguna melakukan aksi pada halaman web sehingga JavaScript meminta _request_ kepada _server_ dan memberikan hasil permintaan secara _asynchronous_ tanpa me-_refresh_ laman web untuk memberikan hasil yang terbaru. Proses tersebut dapat terjadi karena JavaScript membuat objek `XMLHttpRequest` dan objek tersebut akan mengirimkan permintaan kepada _server_ web yang akan dikirim oleh _server_ kembali menuju _browser_. Setelah JavaScript membaca respons tersebut, JavaScript akan melakukan tindakan yang tepat menyesuaikan kepada peristiwa pemicu.
+
+### Pada PBP kali ini, penerapan AJAX dilakukan dengan menggunakan Fetch API daripada _library_ jQuery. Bandingkanlah kedua teknologi tersebut dan tuliskan pendapat kamu teknologi manakah yang lebih baik untuk digunakan
+| Fetch API | _Library_ jQuery |
+| --------- | --------------- |
+| Fetch API merupakan API JavaScript yang telah diintegrasikan ke dalam halaman web sehingga dapat membuat permintaan jaringan dengan sintaks yang sederhana dan konsisten | jQuery merupakan _library_ eksternal JavaScript yang menyediakan berbagai fitur seperti permintaan AJAX yang disederhanakan untuk melakukan permintaan HTTP. |
+| Fetch API memiliki ukuran yang lebih ringan karena tidak perlu menyertakan _library_ eksternal untuk menggunakannya. | jQuery _library_ memiliki ukuran yang lebih besar dengan banyak fitur di luar permintaan AJAX. |
+| Fetch API didukung dengan baik pada _browser_ modern. Tetapi mungkin memerlukan penanganan tambahan untuk _browser_ lama, menyesuaikan tingkat kompatibilitas yang _browser_. | jQuery dapat bekerja secara konsisten pada berbagai jenis _browser_, baik yang lama maupun yang baru. |
+
+Menurut saya, penggunaan Fetch API maupun jQuery _library_ tergantung oleh kebutuhan pengembangan proyek yang dilakukan. Fetch API lebih baik digunakan jika ingin mengembangkan proyek yang membutuhkan kontrol lebih besar terhadap proses permintaan dan respons. Fetch API cocok untuk proyek yang kompleks karena bersifat lebih ringan, terstandarisasi, dan modern. Fetch API merupakan bagian dari JavaScript sehingga tidak perlu tambahan _dependencies_ atau _library_ pada proyek. Sedangkan jQuery _library_ dapat digunakan pada proyek berukuran kecil yang memerlukan kompatibilitas lintas _browser_.
+
+### Jelaskan bagaimana cara kamu mengimplementasikan _checklist_ di atas secara _step-by-step_
+
 ## Tugas 5
 ### Jelaskan manfaat dari setiap _element selector_ dan kapan waktu yang tepat untuk menggunakannya
 - _Universal selector_ merupakan _selector_ yang digunakan untuk memilih seluruh elemen pada dokumen. _Universal selector_ digunakan untuk me-_reset_ atau menetapkan gaya _default_ untuk seluruh elemen pada halaman web.
