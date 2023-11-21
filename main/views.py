@@ -1,7 +1,8 @@
 # pylint: disable=E1101, W0613, W0622
 import datetime
+import json
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponseNotFound, HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseNotFound, HttpResponseRedirect, HttpResponse, JsonResponse
 from main.models import Item
 from main.forms import ItemForm
 from django.urls import reverse
@@ -157,3 +158,24 @@ def delete_item_ajax(request, id):
         item.delete()
         return HttpResponse()
     return HttpResponseNotFound()
+
+@csrf_exempt
+def create_item_flutter(request):
+    if request.method == 'POST':
+        
+        data = json.loads(request.body)
+
+        new_product = Item.objects.create(
+            user = request.user,
+            name = data["name"],
+            brand = data["brand"],
+            type = data["type"],
+            amount = int(data["amount"]),
+            description = data["description"]
+        )
+
+        new_product.save()
+
+        return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
